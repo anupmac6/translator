@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "q": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "format": {
+      "type": "string"
+    },
+    "api_key": {
+      "type": "string"
+    }
+  },
+  "required": ["q","source","target","format"]
+}

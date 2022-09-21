@@ -5,7 +5,7 @@ const express = require("express");
 // app imports
 const { connectToDatabase, globalResponseHeaders } = require("./config");
 const { errorHandler } = require("./handlers");
-const { thingsRouter } = require("./routers");
+const { thingsRouter,translateRouter } = require("./routers");
 
 // global constants
 dotenv.config();
@@ -18,7 +18,7 @@ const {
 } = errorHandler;
 
 // database
-connectToDatabase();
+// connectToDatabase();
 
 // body parser setup
 app.use(express.urlencoded({ extended: true }));
@@ -29,6 +29,7 @@ app.use(bodyParserHandler); // error handling specific to body parser only
 app.use(globalResponseHeaders);
 
 app.use("/things", thingsRouter);
+app.use("/translate", translateRouter)
 
 // catch-all for 404 "Not Found" errors
 app.get("*", fourOhFourHandler);
