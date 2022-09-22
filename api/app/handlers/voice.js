@@ -3,6 +3,7 @@ const axios = require('axios')
 const {APIError} = require('../helpers')
 const queryString = require('query-string');
 const WaveFile = require('wavefile').WaveFile;
+const arrayBufferToAudioBuffer = require('arraybuffer-to-audiobuffer')
 
 async function getLanguages(request,response,next) {
   try {
