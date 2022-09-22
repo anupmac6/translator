@@ -51,6 +51,11 @@ def imageToXml():
   data = pytesseract.image_to_alto_xml(Image.open('tests/test.jpg'))
   return jsonify(data)
 
+@app.route("/image-hindi")
+def imageToHindi():
+  data = pytesseract.image_to_string(Image.open('tests/n3toR.png'), lang='hin')
+  return jsonify(data)
+
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
    if request.method == 'POST':
