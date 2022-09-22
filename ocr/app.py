@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from flask import Flask, render_template, request,jsonify
 from werkzeug import secure_filename
 import os
@@ -8,7 +7,6 @@ from PIL import Image
 import pytesseract
 import argparse
 import cv2
-import re
 
 __author__ = 'Rick Torzynski <ricktorzynski@gmail.com>'
 __source__ = ''
@@ -27,20 +25,31 @@ def getLanguages():
   languages = pytesseract.get_languages()
   return jsonify(languages)
 
-@app.route("/about")
-def about():
-  return jsonify({'hi':'hello'})
 
-@app.route("/process")
-def process():
+@app.route("/image-string")
+def imageToString():
+  data = pytesseract.image_to_string(Image.open('tests/test.jpg'))
+  return jsonify(data)
 
+@app.route("/image-box")
+def imageToBox():
+  data = pytesseract.image_to_boxes(Image.open('tests/test.jpg'))
+  return jsonify(data)
+
+@app.route("/image-data")
+def imageToData():
   data = pytesseract.image_to_data(Image.open('tests/test.jpg'))
-  dataList = data.split('\n')
-  return jsonify(dataList)
+  return jsonify(data)
 
-@app.route("/hindi")
-def hindi():
-  return pytesseract.image_to_data(Image.open('tests/download.png'),lang='hin+eng')
+@app.route("/image-osd")
+def imageToOsd():
+  data = pytesseract.image_to_osd(Image.open('tests/test.jpg'))
+  return jsonify(data)
+
+@app.route("/image-xml")
+def imageToXml():
+  data = pytesseract.image_to_alto_xml(Image.open('tests/test.jpg'))
+  return jsonify(data)
 
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_file():
