@@ -7,6 +7,9 @@ import {useFonts,Karla_200ExtraLight,
   Karla_700Bold,Karla_800ExtraBold} from '@expo-google-fonts/karla'
 import { useCallback } from 'react';
 import { Fonts } from './src/constants/fonts';
+import 'react-native-gesture-handler';
+import Navigation from './src/navigation';
+
 
   SplashScreen.preventAutoHideAsync()
 export default function App() {
@@ -29,10 +32,11 @@ export default function App() {
   if(!fontsLoaded) {
     return null;
   }
+
   return (
     <View style={styles.container} onLayout={onLayout}>
-      <Text style={{fontFamily:Fonts.Karla.Medium}}>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <StatusBar style="auto" />
+<Navigation />
     </View>
   );
 }
@@ -41,7 +45,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
