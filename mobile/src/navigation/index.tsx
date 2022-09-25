@@ -7,6 +7,7 @@ import { getIsLoggedIn, getShowOnboarding } from '../store/app/slice';
 import OnboardingStack from './stack/OnboardingStack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import BottomTab from './tabs/BottomTab';
+import AppDrawer from './drawer/AppDrawer';
 
 const Navigation = () => {
   const showOnboarding = useSelector(getShowOnboarding);
@@ -16,7 +17,7 @@ const Navigation = () => {
       <NavigationContainer>
         {showOnboarding && <OnboardingStack />}
         {!showOnboarding && !isLoggedIn && <AuthStack />}
-        {!showOnboarding && isLoggedIn && <BottomTab />}
+        {!showOnboarding && isLoggedIn && <AppDrawer />}
       </NavigationContainer>
     </SafeAreaProvider>
   );
