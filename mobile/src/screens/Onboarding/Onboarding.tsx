@@ -21,7 +21,7 @@ interface onboardingItem {
   subHeader: string;
 }
 
-const OnboardingOne = () => {
+const Onboarding = () => {
   const items: onboardingItem[] = [
     {
       id: 0,
@@ -154,7 +154,7 @@ const OnboardingOne = () => {
   );
 };
 
-export default OnboardingOne;
+export default Onboarding;
 
 const styles = StyleSheet.create({
   screen: {
