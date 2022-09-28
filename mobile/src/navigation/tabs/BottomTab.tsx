@@ -6,6 +6,7 @@ import ProfileScreen from '../../screens/ProfileScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../constants/colors';
+import AddButton from '../../components/BottomTabs/AddButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,6 +47,16 @@ const BottomTab = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-list" size={size} color={color} />
           ),
+        }}
+      />
+      <Tab.Screen
+        name='Add'
+        component={HomeScreen}
+        options={{
+          tabBarItemStyle: {
+            height: 0
+          },
+          tabBarButton: () => <AddButton />
         }}
       />
       <Tab.Screen
