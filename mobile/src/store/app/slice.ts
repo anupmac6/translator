@@ -11,15 +11,21 @@ export const AppSlice = createSlice({
         },
         setIsLoggedIn: (state,action) => {
             state.isLoggedIn = action.payload
+        },
+        setIsAddSheetOpen: (state,action) => {
+            state.isAddSheetOpen = action.payload
         }
     }
 })
 
 export const {
-    setShowOnboarding
+    setShowOnboarding,
+    setIsAddSheetOpen,
+    setIsLoggedIn
 } = AppSlice.actions
 
 export const getShowOnboarding = (state:TranslatorReduxState) => state.App.showOnboarding
 export const getIsLoggedIn = (state:TranslatorReduxState) => state.App.isLoggedIn
+export const getIsAddSheetOpen = (state:TranslatorReduxState) => state.App.isAddSheetOpen
 
 export default AppSlice.reducer

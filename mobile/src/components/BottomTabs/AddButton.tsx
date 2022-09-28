@@ -1,11 +1,21 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../constants/colors";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useDispatch } from "react-redux";
+import { setIsAddSheetOpen } from "../../store/app/slice";
+import * as Haptics from "expo-haptics";
 
 const AddButton = () => {
+  const dispatch = useDispatch();
+
+  const onTapHandler = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    dispatch(setIsAddSheetOpen(true));
+  }, [Haptics]);
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={onTapHandler}>
       <View style={styles.box}>
         <AntDesign name="plus" size={24} color={Colors.white} />
       </View>
@@ -33,4 +43,12 @@ const styles = StyleSheet.create({
     },
   },
   box: {},
+  sheetContainer: {
+    // add horizontal space
+    marginHorizontal: 24,
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
 });
