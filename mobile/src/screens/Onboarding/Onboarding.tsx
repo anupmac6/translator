@@ -11,7 +11,15 @@ import lottie4 from '../../../assets/lottie/translate-4.json';
 import lottie5 from '../../../assets/lottie/translate-5.json';
 import { useDispatch } from 'react-redux';
 import { setShowOnboarding } from '../../store/app/slice';
-import Animated, { FadeIn, FadeOut, Layout, RollInRight, SlideInLeft, SlideInRight } from 'react-native-reanimated';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  Layout,
+  RollInRight,
+  SlideInLeft,
+  SlideInRight,
+} from 'react-native-reanimated';
+import Colors from '../../constants/colors';
 
 const { height, width } = Dimensions.get('screen');
 interface onboardingItem {
@@ -86,7 +94,7 @@ const Onboarding = () => {
     <SafeAreaView style={styles.screen}>
       <LinearGradient
         // Background Linear Gradient
-        colors={['rgba(175,225,175,0.6)', 'white']}
+        colors={[Colors.primary, Colors.white]}
         style={styles.background}
       />
       <Pressable style={styles.skip} onPress={onSkipOrFinish}>
@@ -132,21 +140,19 @@ const Onboarding = () => {
             onPress={onBackHandler}
             style={styles.screenIndicatorWrapper}
           >
-            {items.map((item, index) => index === currentItem ?(
-              <Animated.View
-              entering={FadeIn}
-              exiting={FadeOut}
-              layout={Layout}
-                key={item.id}
-                style={styles.screenIndicatorActive}
-              ></Animated.View>
-            ) : (
-              <View
-                key={item.id}
-                style={ styles.screenIndicator
-                }
-              ></View>
-            ))}
+            {items.map((item, index) =>
+              index === currentItem ? (
+                <Animated.View
+                  entering={FadeIn}
+                  exiting={FadeOut}
+                  layout={Layout}
+                  key={item.id}
+                  style={styles.screenIndicatorActive}
+                ></Animated.View>
+              ) : (
+                <View key={item.id} style={styles.screenIndicator}></View>
+              )
+            )}
           </Pressable>
           <Pressable onPress={onNextHandler} style={styles.button}>
             <Text style={styles.buttonText}>
@@ -164,7 +170,7 @@ export default Onboarding;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     paddingHorizontal: 20,
   },
   background: {
@@ -223,11 +229,11 @@ const styles = StyleSheet.create({
     height: 10,
     width: 20,
     borderRadius: 10,
-    backgroundColor: 'green',
+    backgroundColor: Colors.primary,
     marginRight: 4,
   },
   button: {
-    backgroundColor: 'rgb(175,225,175)',
+    backgroundColor: Colors.primary1,
     paddingHorizontal: 25,
     paddingVertical: 6,
     borderRadius: 10,

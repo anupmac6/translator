@@ -7,7 +7,12 @@ const Drawer = createDrawerNavigator();
 
 const AppDrawer = () => {
   return (
-    <Drawer.Navigator initialRouteName="App">
+    <Drawer.Navigator
+      initialRouteName="App"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Drawer.Screen name="App" component={BottomTab} />
     </Drawer.Navigator>
   );
