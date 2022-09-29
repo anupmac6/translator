@@ -7,6 +7,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../constants/colors';
 import AddButton from '../../components/BottomTabs/AddButton';
+import TranslateStack from '../stack/TranslateStack';
+import Style from '../../constants/styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,12 +24,9 @@ const BottomTab = () => {
           backgroundColor: Colors.white,
           borderTopLeftRadius: 35,
           borderTopRightRadius: 35,
-          shadowColor: Colors.primary,
-          shadowOffset: { width: 1, height: 1 },
-          shadowRadius: 6,
-          shadowOpacity: 0.1,
           height: 88,
           paddingTop: 10,
+          ...Style.dropShadow,
         },
       }}
     >
@@ -50,13 +49,13 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name='Add'
-        component={HomeScreen}
+        name="Add"
+        component={TranslateStack}
         options={{
           tabBarItemStyle: {
-            height: 0
+            height: 0,
           },
-          tabBarButton: () => <AddButton />
+          tabBarButton: () => <AddButton />,
         }}
       />
       <Tab.Screen

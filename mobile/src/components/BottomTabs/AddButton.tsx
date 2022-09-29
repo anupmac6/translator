@@ -1,11 +1,12 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useCallback, useMemo, useRef } from "react";
-import { AntDesign } from "@expo/vector-icons";
-import Colors from "../../constants/colors";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { useDispatch } from "react-redux";
-import { setIsAddSheetOpen } from "../../store/app/slice";
-import * as Haptics from "expo-haptics";
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { AntDesign } from '@expo/vector-icons';
+import Colors from '../../constants/colors';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { useDispatch } from 'react-redux';
+import { setIsAddSheetOpen } from '../../store/app/slice';
+import * as Haptics from 'expo-haptics';
+import Style from '../../constants/styles';
 
 const AddButton = () => {
   const dispatch = useDispatch();
@@ -27,20 +28,16 @@ export default AddButton;
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
+    position: 'relative',
     width: 60,
     height: 60,
     marginTop: -40,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: Colors.primary1,
     borderRadius: 30,
-    shadowColor: Colors.secondary,
-    shadowOpacity: 0.3,
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
+
+    ...Style.dropShadow,
   },
   box: {},
   sheetContainer: {
@@ -49,6 +46,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
   },
 });
