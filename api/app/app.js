@@ -5,7 +5,15 @@ const express = require("express");
 // app imports
 const { connectToDatabase, globalResponseHeaders } = require("./config");
 const { errorHandler, imageHandler } = require("./handlers");
-const { thingsRouter,translateRouter,voiceRouter,imageRouter,lingvaRouter} = require("./routers");
+const {
+  thingsRouter,
+  translateRouter,
+  voiceRouter,
+  imageRouter,
+  lingvaRouter,
+  settingsRouter,
+  recentLanguages
+} = require("./routers");
 
 // global constants
 dotenv.config();
@@ -33,6 +41,8 @@ app.use("/translate", translateRouter)
 app.use("/voice", voiceRouter)
 app.use("/image",imageRouter)
 app.use('/translation',lingvaRouter)
+app.use('/settings',settingsRouter)
+app.use('/recent-languages',recentLanguages)
 
 // catch-all for 404 "Not Found" errors
 app.get("*", fourOhFourHandler);
