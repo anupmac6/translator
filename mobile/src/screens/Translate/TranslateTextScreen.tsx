@@ -14,17 +14,14 @@ import { Fonts } from '../../constants/fonts';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import LanguageSwitcher from '../../components/shared/LanguageSwitcher';
 
 const TranslateTextScreen = () => {
   const ref = useRef<TextInput>(null);
   return (
     <SafeAreaView style={styles.screen}>
       <View style={styles.container}>
-        <View style={styles.languageSelector}>
-          <Text style={styles.language}>English</Text>
-          <Fontisto name="arrow-swap" size={24} color={Colors.primary} />
-          <Text style={styles.language}>Spanish</Text>
-        </View>
+        <LanguageSwitcher style={styles.languageSelector} />
         <View style={styles.card}>
           <Pressable
             onPress={() => ref?.current?.focus()}

@@ -28,6 +28,7 @@ const BottomTab = () => {
           paddingTop: 10,
           ...Style.dropShadow,
         },
+        headerBackgroundContainerStyle: { backgroundColor: 'red' },
       }}
     >
       <Tab.Screen

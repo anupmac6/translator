@@ -1,16 +1,20 @@
+import { DataState } from './data/initialState';
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { AppState } from "./app/initialState";
 import App from "./app/slice";
+import Data from "./data/slice"
 import {setupListeners} from '@reduxjs/toolkit/query'
 
 export interface TranslatorReduxState {
-    App: AppState
+    App: AppState;
+    Data: DataState
 }
 
 const reducers = combineReducers<TranslatorReduxState>({
-    App
+    App,
+    Data
 })
 
 const store = configureStore({

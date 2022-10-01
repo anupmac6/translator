@@ -18,8 +18,11 @@
     "@react-navigation/native-stack": "^6.9.0",
     "@react-navigation/stack": "^6.3.1",
     "@reduxjs/toolkit": "^1.8.5",
+    "axios": "^0.27.2",
     "expo": "~46.0.9",
+    "expo-camera": "~12.3.0",
     "expo-font": "~10.2.0",
+    "expo-haptics": "~11.3.0",
     "expo-linear-gradient": "~11.4.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
@@ -35,8 +38,7 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
-    "redux-thunk": "^2.4.1",
-    "expo-haptics": "~11.3.0"
+    "redux-thunk": "^2.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
