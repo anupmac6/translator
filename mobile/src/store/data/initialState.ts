@@ -1,11 +1,13 @@
-import { Language } from "../../services/Languages";
+import { Language,  } from "../../services/Languages";
 
 export interface DataState {
-    languages: Language[]
+    languages: Language[];
+    recentLanguages: Language[];
 }
 
 const initialState: DataState = {
-    languages: []
+    languages: [],
+    recentLanguages: []
 }
 
 export default initialState

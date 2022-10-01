@@ -9,14 +9,19 @@ export const DataSlice = createSlice({
     reducers: {
         setLanguages: (state,action) => {
             state.languages = action.payload
+        },
+        setRecentLanguages: (state,action) => {
+            state.recentLanguages = action.payload
         }
     }
 })
 
 export const {
-    setLanguages
+    setLanguages,
+    setRecentLanguages
 } = DataSlice.actions
 
 export const getLanguages = (state:TranslatorReduxState) => state.Data.languages
+export const getRecentLanguages = (state:TranslatorReduxState) => state.Data.recentLanguages
 
 export default DataSlice.reducer

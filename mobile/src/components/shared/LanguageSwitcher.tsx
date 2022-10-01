@@ -1,20 +1,62 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
-import React from 'react';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
+import React, { useCallback } from 'react';
 import Colors from '../../constants/colors';
 import Style from '../../constants/styles';
 import { Fonts } from '../../constants/fonts';
 import { Fontisto } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { getSourceLanguage, getTargetLanguage } from '../../store/app/slice';
+import Loading from './Loading';
 
 interface LanguageSwitcherProps {
   style?: StyleProp<ViewStyle>;
 }
 
 const LanguageSwitcher = ({}: LanguageSwitcherProps) => {
+  const navigation = useNavigation();
+
+  const sourceLanguage = useSelector(getSourceLanguage);
+  const targetLanguage = useSelector(getTargetLanguage);
+
+  const onSourceLangPressHandler = useCallback(() => {
+    navigation.navigate('Add', {
+      screen: 'LanguageSelector',
+      params: {
+        languageType: 'source',
+      },
+    });
+  }, [navigation]);
+
+  const onTargetLangPressHandler = useCallback(() => {
+    navigation.navigate('Add', {
+      screen: 'LanguageSelector',
+      params: {
+        languageType: 'target',
+      },
+    });
+  }, [navigation]);
+
+  if (!sourceLanguage || !targetLanguage) {
+    return <Loading />;
+  }
+
   return (
     <View style={styles.languageSelector}>
-      <Text style={styles.language}>English</Text>
+      <Pressable onPress={onSourceLangPressHandler}>
+        <Text style={styles.language}>{sourceLanguage?.name}</Text>
+      </Pressable>
       <Fontisto name="arrow-swap" size={24} color={Colors.primary} />
-      <Text style={styles.language}>Spanish</Text>
+      <Pressable onPress={onTargetLangPressHandler}>
+        <Text style={styles.language}>{targetLanguage?.name}</Text>
+      </Pressable>
     </View>
   );
 };
