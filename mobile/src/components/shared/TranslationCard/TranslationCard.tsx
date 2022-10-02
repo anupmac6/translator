@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useCallback } from 'react';
 import Colors from '../../../constants/colors';
 import Style from '../../../constants/styles';
 import {
@@ -15,6 +15,7 @@ import { Translation } from '../../../services/Translate';
 import { Language } from '../../../services/Languages';
 import AlternateTranslation from './AlternateTranslation';
 import Definitions from './Definitions';
+import * as Clipboard from 'expo-clipboard';
 
 interface TranslationCardProps {
   translation: Translation;
@@ -31,6 +32,13 @@ const TranslationCard = ({
   if (!translation) {
     return null;
   }
+
+  const copyToClipboard = useCallback(async () => {
+    await Clipboard.setStringAsync(translation?.translation);
+
+    const text = await Clipboard.getStringAsync();
+    console.log(text);
+  }, [translation]);
 
   return (
     <>
@@ -61,7 +69,10 @@ const TranslationCard = ({
           <View style={styles.footer}>
             <TranslationCardFooterButton type="listen" />
 
-            <TranslationCardFooterButton type="copy" />
+            <TranslationCardFooterButton
+              type="copy"
+              onPress={copyToClipboard}
+            />
 
             <TranslationCardFooterButton type="save" />
 

@@ -1,4 +1,11 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React, { useCallback } from 'react';
 import Colors from '../../../constants/colors';
 import {
@@ -38,10 +45,10 @@ const TranslationCardFooterButton = ({
     }
   }, [type]);
   return (
-    <View style={[styles.container, style]}>
+    <Pressable style={[styles.container, style]} onPress={onPress}>
       {getIcon()}
       {/* <Text style={{ marginLeft: 8, color: Colors.white }}>Spanish</Text> */}
-    </View>
+    </Pressable>
   );
 };
 
