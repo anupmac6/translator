@@ -10,6 +10,7 @@ import {
   Karla_600SemiBold,
   Karla_700Bold,
   Karla_800ExtraBold,
+  Karla_400Regular_Italic,
 } from '@expo-google-fonts/karla';
 import { useCallback, useEffect } from 'react';
 import { Fonts } from './src/constants/fonts';
@@ -37,6 +38,7 @@ export default function App() {
     Karla_600SemiBold,
     Karla_700Bold,
     Karla_800ExtraBold,
+    Karla_400Regular_Italic,
   });
 
   return (

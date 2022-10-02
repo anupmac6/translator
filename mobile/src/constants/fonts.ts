@@ -6,6 +6,7 @@ export const Fonts = {
         Medium: 'Karla_500Medium',
         SemiBold: 'Karla_600SemiBold',
         Bold: 'Karla_700Bold',
-        ExtraBold: 'Karla_800ExtraBold'
+        ExtraBold: 'Karla_800ExtraBold',
+        RegularItalic: "Karla_400Regular_Italic"
     }
 }

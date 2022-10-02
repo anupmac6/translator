@@ -1,85 +1,114 @@
 import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
-  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import Colors from '../../constants/colors';
 import Style from '../../constants/styles';
 import { Fontisto } from '@expo/vector-icons';
 import { Fonts } from '../../constants/fonts';
-import { Feather } from '@expo/vector-icons';
+import { Feather, Octicons, MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import LanguageSwitcher from '../../components/shared/LanguageSwitcher';
+import { useSelector } from 'react-redux';
+import { getSourceLanguage, getTargetLanguage } from '../../store/app/slice';
+import Translate, { Translation } from '../../services/Translate';
+import Loading from '../../components/shared/Loading';
+import TranslationCard from '../../components/shared/TranslationCard/TranslationCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const TranslateTextScreen = () => {
   const ref = useRef<TextInput>(null);
+
+  const [text, setText] = useState<string>('');
+  const [translation, setTranslation] = useState<Translation | null>(null);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const sourceLanguage = useSelector(getSourceLanguage);
+  const targetLanguage = useSelector(getTargetLanguage);
+
+  const onSubmitHandler = useCallback(async () => {
+    Keyboard.dismiss();
+
+    if (text && sourceLanguage && targetLanguage) {
+      setIsTranslating(true);
+      const response = await Translate.text(
+        sourceLanguage,
+        targetLanguage,
+        text
+      );
+      console.log(JSON.stringify(response));
+      setTranslation(response);
+      setIsTranslating(false);
+    }
+  }, [sourceLanguage, targetLanguage, text]);
+
+  if (!sourceLanguage || !targetLanguage) {
+    return <Loading />;
+  }
   return (
-    <SafeAreaView style={styles.screen}>
-      <View style={styles.container}>
-        <LanguageSwitcher style={styles.languageSelector} />
-        <View style={styles.card}>
-          <Pressable
-            onPress={() => ref?.current?.focus()}
-            style={styles.content}
-          >
-            <TextInput ref={ref} multiline />
-          </Pressable>
-          <View style={styles.footer}>
-            <View style={styles.item}>
-              <Feather name="camera" size={20} color={Colors.primary1} />
-              <Text style={styles.itemText}>Camera</Text>
-            </View>
-            <View style={styles.item}>
-              <FontAwesome
-                name="microphone"
-                size={20}
-                color={Colors.primary1}
-              />
-              <Text style={styles.itemText}>Voice</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={styles.translated}>
-        <View style={styles.translatedContent}>
-          <Text style={{ flex: 1, paddingRight: 10, color: Colors.white }}>
-            anup anup anup anup anup anup anup anup anup anup anup anup anup
-            anup anup anup anup anup anup anup anup anup anup anup anup anup
-            anup anup anup anup anup anup anup anup anup anup anup anup anup
-            anup anup anup anup anup
-          </Text>
-          <View style={{}}>
-            <AntDesign name="staro" size={24} color={Colors.white} />
-          </View>
-        </View>
-        <View
-          style={{
-            marginTop: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-          }}
+    <SafeAreaView edges={['right', 'left', 'top']} style={styles.screen}>
+      <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Feather name="volume-2" size={20} color={Colors.white} />
-            <Text style={{ marginLeft: 8, color: Colors.white }}>Spanish</Text>
+          <View style={styles.container}>
+            <LanguageSwitcher style={styles.languageSelector} />
+            <View style={styles.card}>
+              <Pressable
+                onPress={() => ref?.current?.focus()}
+                style={styles.content}
+              >
+                <TextInput
+                  ref={ref}
+                  autoFocus={false}
+                  multiline
+                  value={text}
+                  onChangeText={setText}
+                  returnKeyType={'search'}
+                  onSubmitEditing={onSubmitHandler}
+                  style={styles.textInput}
+                />
+              </Pressable>
+              <View style={styles.footer}>
+                <View style={styles.item}>
+                  <Feather name="camera" size={20} color={Colors.primary1} />
+                  <Text style={styles.itemText}>Camera</Text>
+                </View>
+                <View style={styles.item}>
+                  <FontAwesome
+                    name="microphone"
+                    size={20}
+                    color={Colors.primary1}
+                  />
+                  <Text style={styles.itemText}>Voice</Text>
+                </View>
+              </View>
+            </View>
           </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <AntDesign name="copy1" size={20} color={Colors.white} />
-            <Text style={{ marginLeft: 8, color: Colors.white }}>
-              Clipboard
-            </Text>
-          </View>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <AntDesign name="save" size={20} color={Colors.white} />
-            <Text style={{ marginLeft: 8, color: Colors.white }}>Save</Text>
-          </View>
-        </View>
-      </View>
+
+          {isTranslating && (
+            <View style={{ marginTop: 30 }}>
+              <Loading />
+            </View>
+          )}
+          {!isTranslating && translation && (
+            <TranslationCard
+              translation={translation}
+              source={sourceLanguage}
+              target={targetLanguage}
+              query={text}
+            />
+          )}
+        </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -153,5 +182,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+  },
+  textInput: {
+    fontSize: 22,
+    color: Colors.text,
+    marginBottom: 15,
+  },
+
+  translationText: {
+    flex: 1,
+    paddingRight: 10,
+    fontSize: 22,
+    color: Colors.white,
+    marginBottom: 15,
   },
 });

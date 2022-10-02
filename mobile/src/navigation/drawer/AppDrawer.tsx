@@ -3,6 +3,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomTab from '../tabs/BottomTab';
 import TranslateImageScreen from '../../screens/Translate/TranslateImageScreen';
+import MainStack from '../stack/MainStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,8 +15,12 @@ const AppDrawer = () => {
         headerShown: false,
       }}
     >
-      <Drawer.Screen name="App" component={BottomTab} />
-      <Drawer.Screen name="anup" component={TranslateImageScreen} />
+      <Drawer.Screen name="App" component={MainStack} />
+      <Drawer.Screen
+        name="Image"
+        component={TranslateImageScreen}
+        options={{ headerShown: true }}
+      />
     </Drawer.Navigator>
   );
 };

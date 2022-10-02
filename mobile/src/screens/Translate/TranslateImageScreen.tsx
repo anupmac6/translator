@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,6 +11,8 @@ import Colors from '../../constants/colors';
 import { Camera, CameraType } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
 import LanguageSwitcher from '../../components/shared/LanguageSwitcher';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const { height, width } = Dimensions.get('screen');
 const TranslateImageScreen = () => {
@@ -40,13 +41,36 @@ const TranslateImageScreen = () => {
     return null;
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
       <Camera style={styles.camera} type={type}>
         <View style={styles.pill}>
           <LanguageSwitcher />
         </View>
+        <View style={styles.buttons}>
+          <View>
+            <MaterialIcons
+              name="photo-library"
+              size={30}
+              color={Colors.white}
+            />
+          </View>
+          <View>
+            <MaterialIcons
+              name="photo-library"
+              size={30}
+              color={Colors.white}
+            />
+          </View>
+          <View>
+            <MaterialIcons
+              name="photo-library"
+              size={30}
+              color={Colors.white}
+            />
+          </View>
+        </View>
       </Camera>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -58,27 +82,16 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    marginBottom: -20,
+    justifyContent: 'space-between',
   },
   pill: {
     flex: 1,
     flexDirection: 'row',
     marginTop: 70,
   },
-  buttonContainer: {
-    flex: 1,
+  buttons: {
+    height: 100,
     flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    justifyContent: 'space-evenly',
   },
 });

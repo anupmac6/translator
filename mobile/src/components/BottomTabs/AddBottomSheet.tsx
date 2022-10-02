@@ -75,9 +75,10 @@ const AddBottomSheet = () => {
         <View style={styles.divider}></View>
         <Pressable
           onPress={() => {
-            navigation.navigate('Add', {
-              screen: 'TranslateImage',
-            });
+            // navigation.navigate('Add', {
+            //   screen: 'TranslateImage',
+            // });
+            navigation.navigate('Image');
             bottomSheetModalRef.current?.close();
           }}
           style={({ pressed }) => [styles.item, pressed && styles.pressed]}

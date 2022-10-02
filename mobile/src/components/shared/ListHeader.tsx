@@ -8,6 +8,9 @@ interface ListHeaderProps {
 }
 
 const ListHeader = ({ title }: ListHeaderProps) => {
+  if (!title) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{title}</Text>

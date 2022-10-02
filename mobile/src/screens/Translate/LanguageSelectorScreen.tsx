@@ -1,6 +1,7 @@
 import {
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SectionList,
   StyleSheet,
   Text,
@@ -73,9 +74,11 @@ const LanguageSelectorScreen = () => {
   // Layout Effect
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => <HeaderButton title="Done" />,
+      headerRight: () => (
+        <HeaderButton title="Done" onPress={() => navigation.goBack()} />
+      ),
     });
-  }, []);
+  }, [navigation]);
 
   // Get Recent Languages
   const loadRecentLanguages = useCallback(async () => {
@@ -94,8 +97,8 @@ const LanguageSelectorScreen = () => {
   }, []);
 
   const combinedData = useMemo(
-    () => combineRecentAndAllLanguages(recentLanguages, languages),
-    [languages, recentLanguages]
+    () => combineRecentAndAllLanguages(recentLanguages, languages, search),
+    [languages, recentLanguages, search]
   );
 
   const onLanguageItemPressHandler = useCallback(
@@ -116,46 +119,49 @@ const LanguageSelectorScreen = () => {
     <SafeAreaView style={styles.screen} edges={['left', 'right']}>
       {isLoading && <Loading />}
       {!isLoading && (
-        <SectionList
-          sections={combinedData}
-          keyExtractor={(item, index) => item.code + index}
-          ListHeaderComponent={() =>
-            sourceLanguage &&
-            targetLanguage && (
+        <>
+          <View style={styles.searchBar}>
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+              <SearchBar value={search} onChange={setSearch} />
+            </KeyboardAvoidingView>
+            {sourceLanguage && targetLanguage && (
               <View style={styles.listHeader}>
-                <KeyboardAvoidingView>
-                  <SearchBar />
-                  <SegmentedControl
-                    values={[sourceLanguage?.name, targetLanguage?.name]}
-                    selectedIndex={selectedLanguageType}
-                    onChange={setSelectedLanguageType}
-                  />
-                </KeyboardAvoidingView>
+                <SegmentedControl
+                  values={[sourceLanguage?.name, targetLanguage?.name]}
+                  selectedIndex={selectedLanguageType}
+                  onChange={setSelectedLanguageType}
+                />
               </View>
-            )
-          }
-          renderItem={({ item, index, section }) => (
-            <LanguageItem
-              title={item?.name}
-              isFirst={index === 0}
-              isLast={index === section.data.length - 1}
-              onPress={() => onLanguageItemPressHandler(item)}
-              selected={
-                sourceLanguage?.code === item.code ||
-                targetLanguage?.code === item.code
-              }
-            />
-          )}
-          renderSectionHeader={({ section: { title } }) => (
-            <ListHeader title={title} />
-          )}
-          contentContainerStyle={{
-            marginHorizontal: 20,
-          }}
-          stickySectionHeadersEnabled={false}
-          ListFooterComponent={() => <View style={styles.footer}></View>}
-          ItemSeparatorComponent={Divider}
-        />
+            )}
+          </View>
+          <SectionList
+            sections={combinedData}
+            keyExtractor={(item, index) => item.code + index}
+            renderItem={({ item, index, section }) => (
+              <LanguageItem
+                title={item?.name}
+                isFirst={index === 0}
+                isLast={index === section.data.length - 1}
+                onPress={() => onLanguageItemPressHandler(item)}
+                selected={
+                  sourceLanguage?.code === item.code ||
+                  targetLanguage?.code === item.code
+                }
+              />
+            )}
+            renderSectionHeader={({ section: { title } }) => (
+              <ListHeader title={title} />
+            )}
+            contentContainerStyle={{
+              marginHorizontal: 20,
+            }}
+            stickySectionHeadersEnabled={false}
+            ListFooterComponent={() => <View style={styles.footer}></View>}
+            ItemSeparatorComponent={Divider}
+          />
+        </>
       )}
     </SafeAreaView>
   );
@@ -172,7 +178,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   footer: { margin: 50, minHeight: 1 },
-  listHeader: {
-    marginTop: 20,
+  listHeader: {},
+  searchBar: {
+    marginHorizontal: 20,
+    marginTop: 15,
+    marginBottom: 20,
   },
 });
