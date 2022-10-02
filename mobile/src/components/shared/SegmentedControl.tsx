@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import SegmentedControlRN from '@react-native-segmented-control/segmented-control';
+import Colors from '../../constants/colors';
 
 interface SegmentedControlProps {
   values: [string, string];
@@ -20,6 +21,7 @@ const SegmentedControl = ({
         onChange={(event) => {
           onChange(event.nativeEvent.selectedSegmentIndex);
         }}
+        // style={{ backgroundColor: Colors.gray1 }}
       />
     </View>
   );

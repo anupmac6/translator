@@ -1,4 +1,11 @@
-import { SectionList, StyleSheet, Text, View } from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React, {
   useCallback,
   useEffect,
@@ -33,6 +40,7 @@ import {
   setTargetLanguage,
 } from '../../store/app/slice';
 import SegmentedControl from '../../components/shared/SegmentedControl';
+import SearchBar from '../../components/shared/SearchBar';
 
 interface LanguageSelectorScreenProps {}
 
@@ -46,7 +54,8 @@ const LanguageSelectorScreen = () => {
   const [selectedLanguageType, setSelectedLanguageType] = useState<number>(
     languageType === 'source' ? 0 : 1
   );
-
+  const [search, setSearch] = useState<string | undefined>(undefined);
+  const [isSearching, setIsSearching] = useState(false);
   // Navigation
   const navigation = useNavigation();
 
@@ -103,7 +112,6 @@ const LanguageSelectorScreen = () => {
     },
     [selectedLanguageType]
   );
-
   return (
     <SafeAreaView style={styles.screen} edges={['left', 'right']}>
       {isLoading && <Loading />}
@@ -115,11 +123,14 @@ const LanguageSelectorScreen = () => {
             sourceLanguage &&
             targetLanguage && (
               <View style={styles.listHeader}>
-                <SegmentedControl
-                  values={[sourceLanguage?.name, targetLanguage?.name]}
-                  selectedIndex={selectedLanguageType}
-                  onChange={setSelectedLanguageType}
-                />
+                <KeyboardAvoidingView>
+                  <SearchBar />
+                  <SegmentedControl
+                    values={[sourceLanguage?.name, targetLanguage?.name]}
+                    selectedIndex={selectedLanguageType}
+                    onChange={setSelectedLanguageType}
+                  />
+                </KeyboardAvoidingView>
               </View>
             )
           }

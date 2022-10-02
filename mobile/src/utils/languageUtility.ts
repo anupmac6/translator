@@ -11,5 +11,7 @@ export const combineRecentAndAllLanguages = (recentLanguages: Language[],languag
          }
     ]
 
+
+
     return DATA
 }

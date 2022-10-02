@@ -45,4 +45,11 @@ export default class Languages {
 
         return response
     }
+    static async toggleLanguages(source:Language,target:Language) {
+        const response = await Settings.setSourceLanguage(source)
+            .then(() => Settings.setTargetLanguage(target))
+            .then(() => true)
+            .catch(() => false)
+        return response
+    }
 }

@@ -6,15 +6,21 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Colors from '../../constants/colors';
 import Style from '../../constants/styles';
 import { Fonts } from '../../constants/fonts';
 import { Fontisto } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { getSourceLanguage, getTargetLanguage } from '../../store/app/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getSourceLanguage,
+  getTargetLanguage,
+  setSourceLanguage,
+  setTargetLanguage,
+} from '../../store/app/slice';
 import Loading from './Loading';
+import Languages from '../../services/Languages';
 
 interface LanguageSwitcherProps {
   style?: StyleProp<ViewStyle>;
@@ -23,8 +29,12 @@ interface LanguageSwitcherProps {
 const LanguageSwitcher = ({}: LanguageSwitcherProps) => {
   const navigation = useNavigation();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const sourceLanguage = useSelector(getSourceLanguage);
   const targetLanguage = useSelector(getTargetLanguage);
+
+  const dispatch = useDispatch();
 
   const onSourceLangPressHandler = useCallback(() => {
     navigation.navigate('Add', {
@@ -44,17 +54,32 @@ const LanguageSwitcher = ({}: LanguageSwitcherProps) => {
     });
   }, [navigation]);
 
+  const onToggleLanguages = useCallback(async () => {
+    if (sourceLanguage && targetLanguage) {
+      setIsLoading(true);
+      await Languages.toggleLanguages(targetLanguage, sourceLanguage);
+      dispatch(setSourceLanguage(targetLanguage?.code));
+      dispatch(setTargetLanguage(sourceLanguage?.code));
+      setIsLoading(false);
+    }
+  }, [sourceLanguage, targetLanguage]);
+
   if (!sourceLanguage || !targetLanguage) {
     return <Loading />;
   }
 
   return (
     <View style={styles.languageSelector}>
-      <Pressable onPress={onSourceLangPressHandler}>
+      <Pressable onPress={onSourceLangPressHandler} style={styles.pill}>
         <Text style={styles.language}>{sourceLanguage?.name}</Text>
       </Pressable>
-      <Fontisto name="arrow-swap" size={24} color={Colors.primary} />
-      <Pressable onPress={onTargetLangPressHandler}>
+      <Pressable onPress={onToggleLanguages} style={styles.toggle}>
+        {isLoading && <Loading />}
+        {!isLoading && (
+          <Fontisto name="arrow-swap" size={24} color={Colors.primary} />
+        )}
+      </Pressable>
+      <Pressable onPress={onTargetLangPressHandler} style={styles.pill}>
         <Text style={styles.language}>{targetLanguage?.name}</Text>
       </Pressable>
     </View>
@@ -77,7 +102,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 20,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+  },
+  pill: {
+    width: '50%',
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+  },
+  toggle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
   },
   language: {
     fontFamily: Fonts.Karla.Bold,
