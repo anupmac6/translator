@@ -1,4 +1,5 @@
 import API from "../api";
+import History from "./History";
 import { Language } from "./Languages";
 export interface DefinitionsGroup {
     type: string,
@@ -47,6 +48,8 @@ export default class Translate {
             target: target.code,
             query
         })
+
+        History.add(source,target,query,response?.data?.translation)
         return response?.data
     }
 }

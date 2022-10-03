@@ -1,19 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
-import { useDispatch } from 'react-redux';
-import API, { SettingsResponse } from '../api';
+import { StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { useDispatch } from "react-redux";
+import API, { SettingsResponse } from "../api";
 import {
   setShowOnboarding,
   setSourceLanguage,
   setTargetLanguage,
-} from '../store/app/slice';
-import { StatusBar } from 'expo-status-bar';
-import Navigation from '../navigation';
-import Settings from '../services/Settings';
-import Languages from '../services/Languages';
-import { useIsFocused } from '@react-navigation/native';
-import { setLanguages } from '../store/data/slice';
+} from "../store/app/slice";
+import { StatusBar } from "expo-status-bar";
+import Navigation from "../navigation";
+import Settings from "../services/Settings";
+import Languages from "../services/Languages";
+import { useIsFocused } from "@react-navigation/native";
+import { setLanguages } from "../store/data/slice";
 
 interface AppScreenProps {
   fontsLoaded: boolean;
@@ -36,7 +36,6 @@ const AppScreen = ({ fontsLoaded }: AppScreenProps) => {
   //settings
   const loadSettings = useCallback(async () => {
     const settings = await Settings.get();
-    console.log(settings);
     dispatch(setShowOnboarding(settings?.showOnboarding));
     dispatch(setSourceLanguage(settings?.sourceLang));
     dispatch(setTargetLanguage(settings?.targetLang));
@@ -76,6 +75,6 @@ export default AppScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
 });

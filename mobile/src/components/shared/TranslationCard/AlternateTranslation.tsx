@@ -1,15 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { Translation } from '../../../services/Translate';
-import Colors from '../../../constants/colors';
-import Style from '../../../constants/styles';
-import { Fonts } from '../../../constants/fonts';
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { Translation } from "../../../services/Translate";
+import Colors from "../../../constants/colors";
+import Style from "../../../constants/styles";
+import { Fonts } from "../../../constants/fonts";
 
 interface AlternateTranslationProps {
   translation: Translation;
 }
 
 const AlternateTranslation = ({ translation }: AlternateTranslationProps) => {
+  if (translation?.info?.extraTranslations?.length === 0) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Alternate Translations</Text>
@@ -22,7 +25,7 @@ const AlternateTranslation = ({ translation }: AlternateTranslationProps) => {
               <View key={listItem?.word + index}>
                 <Text style={styles.itemLabel}>{listItem?.word}</Text>
                 <Text style={styles.itemValue}>
-                  {listItem?.meanings?.join(', ')}
+                  {listItem?.meanings?.join(", ")}
                 </Text>
               </View>
             ))}

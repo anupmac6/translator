@@ -1,15 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
-import { Translation } from '../../../services/Translate';
-import Colors from '../../../constants/colors';
-import Style from '../../../constants/styles';
-import { Fonts } from '../../../constants/fonts';
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { Translation } from "../../../services/Translate";
+import Colors from "../../../constants/colors";
+import Style from "../../../constants/styles";
+import { Fonts } from "../../../constants/fonts";
 
 interface DefinitionsProps {
   translation: Translation;
 }
 
 const Definitions = ({ translation }: DefinitionsProps) => {
+  if (translation?.info?.definitions?.length === 0) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Definition</Text>
@@ -29,7 +32,7 @@ const Definitions = ({ translation }: DefinitionsProps) => {
                   <View>
                     <Text key={index} style={styles.itemValue}>
                       <Text style={{ color: Colors.text }}>Synonyms: </Text>
-                      {listItem?.synonyms?.join(', ')}
+                      {listItem?.synonyms?.join(", ")}
                     </Text>
                   </View>
                 )}

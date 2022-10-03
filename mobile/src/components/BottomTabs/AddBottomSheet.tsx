@@ -1,13 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { BottomSheetModal, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import { useDispatch, useSelector } from 'react-redux';
-import { getIsAddSheetOpen, setIsAddSheetOpen } from '../../store/app/slice';
-import { Feather } from '@expo/vector-icons';
-import Colors from '../../constants/colors';
-import { Fonts } from '../../constants/fonts';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { BottomSheetModal, BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsAddSheetOpen, setIsAddSheetOpen } from "../../store/app/slice";
+import { Feather } from "@expo/vector-icons";
+import Colors from "../../constants/colors";
+import { Fonts } from "../../constants/fonts";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const AddBottomSheet = () => {
   const isAddSheetOpen = useSelector(getIsAddSheetOpen);
@@ -20,14 +20,13 @@ const AddBottomSheet = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = useMemo(() => ["25%", "50%"], []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
   const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
     if (index === -1) {
       dispatch(setIsAddSheetOpen(false));
     }
@@ -62,8 +61,8 @@ const AddBottomSheet = () => {
       <View style={styles.contentContainer}>
         <Pressable
           onPress={() => {
-            navigation.navigate('Add', {
-              screen: 'TranslateText',
+            navigation.navigate("Add", {
+              screen: "TranslateText",
             });
             bottomSheetModalRef.current?.close();
           }}
@@ -78,7 +77,7 @@ const AddBottomSheet = () => {
             // navigation.navigate('Add', {
             //   screen: 'TranslateImage',
             // });
-            navigation.navigate('Image');
+            navigation.navigate("Image");
             bottomSheetModalRef.current?.close();
           }}
           style={({ pressed }) => [styles.item, pressed && styles.pressed]}
@@ -89,8 +88,8 @@ const AddBottomSheet = () => {
         <View style={styles.divider}></View>
         <Pressable
           onPress={() => {
-            navigation.navigate('Add', {
-              screen: 'TranslateVoice',
+            navigation.navigate("Add", {
+              screen: "TranslateVoice",
             });
             bottomSheetModalRef.current?.close();
           }}
@@ -113,10 +112,10 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: '20%',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: "20%",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 10,
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: Colors.gray,
     marginVertical: 5,
-    marginHorizontal: '20%',
+    marginHorizontal: "20%",
   },
   pressed: {
     backgroundColor: Colors.primary,

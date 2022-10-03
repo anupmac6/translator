@@ -6,18 +6,21 @@
     "search": {
       "type": "string"
     },
-    "sourceLang": {
+    "sourceCode": {
       "type": "string"
     },
-    "targetLang": {
+    "sourceName": {
+      "type": "string"
+    },
+    "targetCode": {
+      "type": "string"
+    },
+    "targetName": {
       "type": "string"
     },
     "translation":{
       "type": "string"
-    },
-    "historyId" : {
-      "type": "string"
     }
   },
-  "required": ["search","sourceLang","targetLang","historyId","translation"]
+  "required": ["search", "sourceCode" ,"sourceName","targetCode","targetName", "translation"]
 }

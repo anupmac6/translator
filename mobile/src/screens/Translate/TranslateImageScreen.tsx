@@ -4,17 +4,17 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import Colors from '../../constants/colors';
-import { Camera, CameraType } from 'expo-camera';
-import { useIsFocused } from '@react-navigation/native';
-import LanguageSwitcher from '../../components/shared/LanguageSwitcher';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
+} from "react-native";
+import React, { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import Colors from "../../constants/colors";
+import { Camera, CameraType } from "expo-camera";
+import { useIsFocused } from "@react-navigation/native";
+import LanguageSwitcher from "../../components/shared/LanguageSwitcher";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
 
-const { height, width } = Dimensions.get('screen');
+const { height, width } = Dimensions.get("screen");
 const TranslateImageScreen = () => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -30,7 +30,6 @@ const TranslateImageScreen = () => {
     requestPermission();
   }
 
-  console.log(permission);
   function toggleCameraType() {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
@@ -41,7 +40,7 @@ const TranslateImageScreen = () => {
     return null;
   }
   return (
-    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+    <SafeAreaView style={styles.container} edges={["left", "right"]}>
       <Camera style={styles.camera} type={type}>
         <View style={styles.pill}>
           <LanguageSwitcher />
@@ -82,16 +81,16 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   pill: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 70,
   },
   buttons: {
     height: 100,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
 });

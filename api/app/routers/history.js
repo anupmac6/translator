@@ -5,13 +5,23 @@ const { history } = require('../handlers')
 const router = new express.Router()
 
 const {
-getSearchHistory,
-addSearchHistory
+  getHistoryBuckets,
+  getTranslationsByHistory,
+  addTranslationToTranslation,
+  addHistory
 } = history
+
 
 router
     .route("/")
-    .get(getSearchHistory)
-    .post(addSearchHistory)
+    .get(getHistoryBuckets)
+    .post(addHistory);
+
+router
+    .route("/translations")
+    .post(addTranslationToTranslation)
+router
+    .route("/:categoryId")
+    .get(getTranslationsByHistory)
 
 module.exports = router

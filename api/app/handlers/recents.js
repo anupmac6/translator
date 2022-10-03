@@ -17,7 +17,10 @@ async function getRecents(request,response,next) {
 
           const searches = await searchesRef.get();
 
-          const data = searches.docs.map((doc) => doc.data());
+          const data = searches.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+          }));
           return response.status(201).json(data);
 
     } catch (error) {

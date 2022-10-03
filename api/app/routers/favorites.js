@@ -6,9 +6,15 @@ const router = new express.Router()
 
 const {
 addFavorites,
-getFavorites
+getFavorites,
+removeFavoriteById,
+isFavorite
 } = favorites
 
 router.route("/").get(getFavorites).post(addFavorites);
+
+router.route("/:favoriteId").delete(removeFavoriteById)
+
+router.route("/isFavorite").post(isFavorite)
 
 module.exports = router

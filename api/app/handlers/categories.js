@@ -47,6 +47,54 @@ async function getTranslationsByCategory(request,response,next) {
   }
 }
 
+async function removeTranslationById(request,response,next) {
+  try {
+    await db
+      .collection("list")
+      .doc(Constants.userId)
+      .collection("categories")
+      .doc(request.params.categoryId)
+      .collection("searches")
+      .doc(request.params.categoryItemId)
+      .delete()
+
+      const categoryRef = db
+        .collection("list")
+        .doc(Constants.userId)
+        .collection("categories")
+        .doc(request.params.categoryId)
+
+        const category = await categoryRef.get()
+
+        if(category.exists){
+          const itemCount = category.data().itemCount
+
+          await categoryRef.update({
+            itemCount: itemCount > 0 ? itemCount - 1 : itemCount
+          })
+        }
+
+      return response.status(201).json(true)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+async function removeById(request,response,next) {
+  try {
+    await db
+    .collection("list")
+    .doc(Constants.userId)
+    .collection("categories")
+    .doc(request.params.categoryId)
+    .delete()
+
+    return response.status(201).json(true)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 async function addTranslationToCategory(request,response,next) {
    const validation = validate(request.body, categoryTranslations);
    if (!validation.valid) {
@@ -131,4 +179,6 @@ module.exports = {
   addCategory,
   addTranslationToCategory,
   getTranslationsByCategory,
+  removeById,
+  removeTranslationById
 };
