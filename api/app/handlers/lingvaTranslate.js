@@ -36,6 +36,8 @@ async function translate(request,response,next) {
       method: 'get',
       url: 'http://localhost:3000/api/v1/'+source+'/'+target+'/'+query
     })
+
+    console.log(JSON.stringify(translation.data));
     return response.status(201).json(translation.data)
   } catch (error) {
     return next(error)

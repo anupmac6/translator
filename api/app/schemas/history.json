@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "search": {
+      "type": "string"
+    },
+    "sourceLang": {
+      "type": "string"
+    },
+    "targetLang": {
+      "type": "string"
+    },
+    "category" : {
+      "type": "string"
+    }
+  },
+  "required": ["search","sourceLang","targetLang","category"]
+}

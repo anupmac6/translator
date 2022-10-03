@@ -7,3 +7,7 @@ exports.imageHandler = require("./image");
 exports.lingvaHandler = require('./lingvaTranslate')
 exports.settingsHandler = require('./settings')
 exports.recentLanguages = require('./recentLanguages')
+exports.history = require('./history')
+exports.recents = require('./recents')
+exports.favorites = require('./favorites')
+exports.categories = require('./categories')

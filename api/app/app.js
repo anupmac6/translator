@@ -12,7 +12,11 @@ const {
   imageRouter,
   lingvaRouter,
   settingsRouter,
-  recentLanguages
+  recentLanguages,
+  historyRouter,
+  recentsRouter,
+  favoritesRouter,
+  categoriesRouter
 } = require("./routers");
 
 // global constants
@@ -43,6 +47,10 @@ app.use("/image",imageRouter)
 app.use('/translation',lingvaRouter)
 app.use('/settings',settingsRouter)
 app.use('/recent-languages',recentLanguages)
+app.use('/history', historyRouter)
+app.use('/recents',recentsRouter)
+app.use('/favorites',favoritesRouter)
+app.use('/categories', categoriesRouter)
 
 // catch-all for 404 "Not Found" errors
 app.get("*", fourOhFourHandler);
