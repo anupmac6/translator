@@ -1,21 +1,21 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useHeaderHeight } from '@react-navigation/elements';
-import SearchBar from '../components/shared/SearchBar';
-import { Fonts } from '../constants/fonts';
-import Colors from '../constants/colors';
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useHeaderHeight } from "@react-navigation/elements";
+import SearchBar from "../components/shared/SearchBar";
+import { Fonts } from "../constants/fonts";
+import Colors from "../constants/colors";
 import {
   useFocusEffect,
   useIsFocused,
   useNavigation,
   useRoute,
-} from '@react-navigation/native';
-import History, { SearchItem } from '../services/History';
-import HistoryDetailItem from '../components/HistoryDetailScreen/HistoryDetailItem';
+} from "@react-navigation/native";
+import History, { SearchItem } from "../services/History";
+import HistoryDetailItem from "../components/HistoryDetailScreen/HistoryDetailItem";
 const HistoryDetailScreen = () => {
   const headerHeight = useHeaderHeight();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [histories, setHistories] = useState<SearchItem[]>([]);
   const route = useRoute();
   const navigation = useNavigation();

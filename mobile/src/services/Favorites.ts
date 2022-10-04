@@ -4,7 +4,7 @@ import { Language } from "./Languages";
 
 export default class Favorites {
     static async get(){
-        const response = await API.get<SearchItem>('/favorites')
+        const response = await API.get<SearchItem[]>('/favorites')
         return response?.data
     }
 
