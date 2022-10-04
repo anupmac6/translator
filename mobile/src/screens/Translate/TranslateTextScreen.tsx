@@ -8,27 +8,28 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
-import React, { useCallback, useRef, useState } from "react";
-import Colors from "../../constants/colors";
-import Style from "../../constants/styles";
-import { Fontisto } from "@expo/vector-icons";
-import { Fonts } from "../../constants/fonts";
-import { Feather, Octicons, MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
-import LanguageSwitcher from "../../components/shared/LanguageSwitcher";
-import { useSelector } from "react-redux";
-import { getSourceLanguage, getTargetLanguage } from "../../store/app/slice";
-import Translate, { Translation } from "../../services/Translate";
-import Loading from "../../components/shared/Loading";
-import TranslationCard from "../../components/shared/TranslationCard/TranslationCard";
-import { SafeAreaView } from "react-native-safe-area-context";
+} from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import Colors from '../../constants/colors';
+import Style from '../../constants/styles';
+import { Fontisto } from '@expo/vector-icons';
+import { Fonts } from '../../constants/fonts';
+import { Feather, Octicons, MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import LanguageSwitcher from '../../components/shared/LanguageSwitcher';
+import { useSelector } from 'react-redux';
+import { getSourceLanguage, getTargetLanguage } from '../../store/app/slice';
+import Translate, { Translation } from '../../services/Translate';
+import Loading from '../../components/shared/Loading';
+import TranslationCard from '../../components/shared/TranslationCard/TranslationCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import RecentSearches from '../../components/TranslateTextScreen/RecentSearches';
 
 const TranslateTextScreen = () => {
   const ref = useRef<TextInput>(null);
 
-  const [text, setText] = useState<string>("");
+  const [text, setText] = useState<string>('');
   const [translation, setTranslation] = useState<Translation | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
   const sourceLanguage = useSelector(getSourceLanguage);
@@ -53,14 +54,14 @@ const TranslateTextScreen = () => {
     return <Loading />;
   }
   return (
-    <SafeAreaView edges={["right", "left", "top"]} style={styles.screen}>
+    <SafeAreaView edges={['right', 'left', 'top']} style={styles.screen}>
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         keyboardDismissMode="interactive"
       >
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
           <View style={styles.container}>
             <LanguageSwitcher style={styles.languageSelector} />
@@ -75,7 +76,7 @@ const TranslateTextScreen = () => {
                   multiline
                   value={text}
                   onChangeText={setText}
-                  returnKeyType={"search"}
+                  returnKeyType={'search'}
                   onSubmitEditing={onSubmitHandler}
                   style={styles.textInput}
                 />
@@ -110,6 +111,7 @@ const TranslateTextScreen = () => {
               query={text}
             />
           )}
+          {!isTranslating && !translation && <RecentSearches />}
         </KeyboardAvoidingView>
       </ScrollView>
     </SafeAreaView>
@@ -125,14 +127,14 @@ const styles = StyleSheet.create({
   },
   container: {
     marginTop: 30,
-    position: "relative",
+    position: 'relative',
   },
   card: {
     minHeight: 200,
     backgroundColor: Colors.white,
     borderRadius: 20,
     ...Style.dropShadow,
-    flexDirection: "column",
+    flexDirection: 'column',
     paddingHorizontal: 20,
   },
   content: {
@@ -140,13 +142,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     paddingBottom: 8,
   },
   item: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   itemText: {
     fontFamily: Fonts.Karla.Bold,
@@ -155,19 +157,19 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   languageSelector: {
-    position: "absolute",
+    position: 'absolute',
     top: -25,
-    width: "80%",
-    marginHorizontal: "10%",
+    width: '80%',
+    marginHorizontal: '10%',
     zIndex: 1,
     height: 50,
     backgroundColor: Colors.white,
     borderRadius: 25,
     ...Style.dropShadow,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: 20,
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
   language: {
     fontFamily: Fonts.Karla.Bold,
@@ -182,9 +184,9 @@ const styles = StyleSheet.create({
     ...Style.dropShadow,
   },
   translatedContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   textInput: {
     fontSize: 22,

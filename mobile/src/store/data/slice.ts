@@ -48,4 +48,15 @@ export const getRecentLanguages = (state:TranslatorReduxState) => state.Data.rec
 export const getFavorites = (state:TranslatorReduxState) => state.Data.favorites
 export const getLocalFavorites = (state:TranslatorReduxState) => state.Data.localFavorites
 
+export const getLanguageByCode = (code:string) => (state:TranslatorReduxState)  => {
+    const languages = state.Data.languages
+
+    const filteredLanguages = languages?.filter(language => language.code === code)
+
+    if(filteredLanguages?.length !== 0) {
+        return filteredLanguages?.[0]?.name
+    }
+    return code
+}
+
 export default DataSlice.reducer

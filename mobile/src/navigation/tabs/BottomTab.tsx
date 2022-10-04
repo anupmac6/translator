@@ -4,11 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../../screens/HomeScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import Colors from '../../constants/colors';
 import AddButton from '../../components/BottomTabs/AddButton';
 import TranslateStack from '../stack/TranslateStack';
 import Style from '../../constants/styles';
+import HistoryScreen from '../../screens/HistoryScreen';
+import HistoryStack from '../stack/HistoryStack';
+import FavoriteScreen from '../../screens/FavoriteScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,7 +65,7 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="Home1"
-        component={HomeScreen}
+        component={HistoryStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="history" size={size} color={color} />
@@ -69,11 +73,11 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Profile1"
-        component={ProfileScreen}
+        name="Favorites"
+        component={FavoriteScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-settings" size={size} color={color} />
+            <AntDesign name="star" size={size} color={color} />
           ),
         }}
       />
