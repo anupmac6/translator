@@ -110,7 +110,7 @@ async function addHistory(request,response,next) {
 
     try {
 
-      const bucketName = `${request.body.sourceName} => ${request.body.targetName}`
+      const bucketName = `${request.body.sourceName} - ${request.body.targetName}`
       // history exists
       const historyRef = await db
         .collection("history")
