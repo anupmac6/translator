@@ -10,8 +10,8 @@ const {
   getCategories,
   getTranslationsByCategory,
   removeById,
-  removeTranslationById
-
+  removeTranslationById,
+  isInCategory
 } = categories;
 
 router
@@ -22,6 +22,10 @@ router
 router
     .route("/translations")
     .post(addTranslationToCategory)
+
+router
+    .route("/isInCategory")
+    .post(isInCategory)
 
 router
     .route("/:categoryId")

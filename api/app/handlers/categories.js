@@ -2,7 +2,7 @@ const { validate } = require("jsonschema");
 const { APIError } = require("../helpers");
 const { db } = require("../utils/admin");
 const Constants = require("../utils/constants");
-const { category,categoryTranslations } = require("../schemas");
+const { category,categoryTranslations, categoryItem } = require("../schemas");
 
 
 async function getCategories(request,response,next) {
@@ -35,7 +35,7 @@ async function getTranslationsByCategory(request,response,next) {
       .doc(Constants.userId)
       .collection("categories")
       .doc(request.params.categoryId)
-      .collection("searches")
+      .collection("categoryItems")
 
       const category = await categoryRef.get();
 
@@ -54,9 +54,9 @@ async function removeTranslationById(request,response,next) {
       .doc(Constants.userId)
       .collection("categories")
       .doc(request.params.categoryId)
-      .collection("searches")
+      .collection("categoryItems")
       .doc(request.params.categoryItemId)
-      .delete()
+      .delete();
 
       const categoryRef = db
         .collection("list")
@@ -113,8 +113,8 @@ async function addTranslationToCategory(request,response,next) {
       .doc(Constants.userId)
       .collection("categories")
       .doc(request.body.categoryId)
-      .collection("searches")
-      .doc()
+      .collection("categoryItems")
+      .doc();
 
       const translation = await categoriesRef.create({
         search: request.body.search,
@@ -174,11 +174,44 @@ async function addCategory(request,response,next) {
     }
 }
 
+async function isInCategory(request,response,next) {
+  const validation = validate(request.body, categoryItem);
+  if (!validation.valid) {
+    return next(
+      new APIError(
+        400,
+        "Bad Request",
+        validation.errors.map((e) => e.stack).join(". ")
+      )
+    );
+  }
+
+  try {
+    const items = await db
+      .collectionGroup("categoryItems")
+      .where("search", "==", request.body.search)
+      .where("sourceLang", "==", request.body.sourceLang)
+      .where("targetLang", "==", request.body.targetLang)
+      .where("translation", "==", request.body.translation)
+      .get()
+
+      const data = items.docs.map((doc) => ({
+        categoryId: doc.ref?.parent?.parent.id,
+      }));
+            return response.status(201).json(data)
+
+  } catch (error) {
+    console.log(error)
+    return next(error)
+  }
+}
+
 module.exports = {
   getCategories,
   addCategory,
   addTranslationToCategory,
   getTranslationsByCategory,
   removeById,
-  removeTranslationById
+  removeTranslationById,
+  isInCategory
 };
