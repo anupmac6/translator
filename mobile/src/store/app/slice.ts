@@ -20,6 +20,9 @@ export const AppSlice = createSlice({
         },
         setTargetLanguage: (state,action) => {
             state.targetLang = action.payload
+        },
+        setAddToCategory:(state,action) => {
+            state.addToCategory = action.payload
         }
     }
 })
@@ -29,7 +32,8 @@ export const {
     setIsAddSheetOpen,
     setIsLoggedIn,
     setSourceLanguage,
-    setTargetLanguage
+    setTargetLanguage,
+    setAddToCategory
 } = AppSlice.actions
 
 export const getShowOnboarding = (state:TranslatorReduxState) => state.App.showOnboarding
@@ -68,4 +72,5 @@ export const getTargetLanguage = (state:TranslatorReduxState) => {
     return filteredLang?.[0]
 }
 
+export const getAddToCategory = (state:TranslatorReduxState) => state.App.addToCategory
 export default AppSlice.reducer

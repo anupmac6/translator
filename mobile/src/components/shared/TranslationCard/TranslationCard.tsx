@@ -1,22 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useCallback } from "react";
-import Colors from "../../../constants/colors";
-import Style from "../../../constants/styles";
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+import Colors from '../../../constants/colors';
+import Style from '../../../constants/styles';
 import {
   AntDesign,
   Feather,
   Octicons,
   MaterialIcons,
-} from "@expo/vector-icons";
-import TranslationCardFooterButton from "./TranslationCardFooterButton";
-import { LinearGradient } from "expo-linear-gradient";
-import { Fonts } from "../../../constants/fonts";
-import { Translation } from "../../../services/Translate";
-import { Language } from "../../../services/Languages";
-import AlternateTranslation from "./AlternateTranslation";
-import Definitions from "./Definitions";
-import * as Clipboard from "expo-clipboard";
-import Favorite from "../Favorite";
+} from '@expo/vector-icons';
+import TranslationCardFooterButton from './TranslationCardFooterButton';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Fonts } from '../../../constants/fonts';
+import { Translation } from '../../../services/Translate';
+import { Language } from '../../../services/Languages';
+import AlternateTranslation from './AlternateTranslation';
+import Definitions from './Definitions';
+import * as Clipboard from 'expo-clipboard';
+import Favorite from '../Favorite';
+import { useDispatch } from 'react-redux';
+import { setAddToCategory } from '../../../store/app/slice';
 
 interface TranslationCardProps {
   translation: Translation;
@@ -34,11 +36,22 @@ const TranslationCard = ({
     return null;
   }
 
+  const dispatch = useDispatch();
+
   const copyToClipboard = useCallback(async () => {
     await Clipboard.setStringAsync(translation?.translation);
-
-    const text = await Clipboard.getStringAsync();
   }, [translation]);
+
+  const onSaveHandler = useCallback(() => {
+    dispatch(
+      setAddToCategory({
+        source,
+        target,
+        translation: translation?.translation,
+        query,
+      })
+    );
+  }, []);
 
   return (
     <>
@@ -77,7 +90,7 @@ const TranslationCard = ({
               onPress={copyToClipboard}
             />
 
-            <TranslationCardFooterButton type="save" />
+            <TranslationCardFooterButton type="save" onPress={onSaveHandler} />
 
             <TranslationCardFooterButton type="full-screen" />
 
@@ -100,11 +113,11 @@ const styles = StyleSheet.create({
     ...Style.dropShadow,
   },
   background: {
-    position: "absolute",
+    position: 'absolute',
     left: 0,
     right: 0,
     top: 0,
-    height: "100%",
+    height: '100%',
     borderRadius: 20,
   },
   container: {
@@ -112,31 +125,31 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 20,
     paddingBottom: 10,
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-    alignSelf: "stretch",
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    alignSelf: 'stretch',
     borderRadius: 20,
   },
   content: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   footer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   contentArea: {
     flex: 1,
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
   },
   translation: {},
   pronunciation: {},
   favorite: {
-    alignSelf: "flex-start",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    alignSelf: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     height: 44,
     width: 44,
   },
@@ -148,9 +161,9 @@ const styles = StyleSheet.create({
     ...Style.dropShadow,
   },
   translatedContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   translationText: {
     fontFamily: Fonts.Karla.Bold,

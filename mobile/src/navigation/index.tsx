@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppDrawer from './drawer/AppDrawer';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import AddBottomSheet from '../components/BottomTabs/AddBottomSheet';
+import CategoryBottomSheet from '../components/CategoryBottomSheet';
 
 const Navigation = () => {
   const showOnboarding = useSelector(getShowOnboarding);
@@ -22,6 +23,7 @@ const Navigation = () => {
           {!showOnboarding && !isLoggedIn && <AuthStack />}
           {!showOnboarding && isLoggedIn && <AppDrawer />}
           <AddBottomSheet />
+          <CategoryBottomSheet />
         </NavigationContainer>
       </BottomSheetModalProvider>
     </SafeAreaProvider>

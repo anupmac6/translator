@@ -9,7 +9,7 @@ export interface Category {
 }
 export default class Categories {
     static async get() {
-        const response = await API.get<Category>('/categories')
+        const response = await API.get<Category[]>('/categories')
         return response?.data
     }
 
