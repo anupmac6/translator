@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Categories, { Category } from '../services/Categories';
 import Colors from '../constants/colors';
 import Checkbox, { CheckboxEvent } from 'expo-checkbox';
@@ -14,10 +14,11 @@ interface CategoryItemProps {
     query: string;
     translation: string;
   } | null;
+  isInCategory?: boolean;
 }
 
-const CategoryItem = ({ category, data }: CategoryItemProps) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+const CategoryItem = ({ category, data, isInCategory }: CategoryItemProps) => {
+  const [isChecked, setIsChecked] = useState<boolean>(isInCategory || false);
 
   const onPressHandler = () => {
     if (isChecked) {
@@ -34,6 +35,12 @@ const CategoryItem = ({ category, data }: CategoryItemProps) => {
     }
     setIsChecked((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    if (isInCategory !== undefined && isChecked !== isInCategory) {
+      setIsChecked(isInCategory);
+    }
+  }, [isInCategory]);
   return (
     <Pressable onPress={onPressHandler} style={styles.section}>
       <Checkbox

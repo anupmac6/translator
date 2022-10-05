@@ -30,15 +30,26 @@ const CategoryBottomSheet = () => {
 
   const insets = useSafeAreaInsets();
   const [categories, setCategories] = useState<Category[]>([]);
+  const [existsInCategories, setExistsInCategories] = useState<
+    { categoryId: string }[]
+  >([]);
 
   const showBottomSheet = useSelector(getAddToCategory);
   // ref
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const loadCategories = async () => {
-    const data = await Categories.get();
-
-    setCategories(data);
+    if (showBottomSheet) {
+      const data = await Categories.get();
+      const existsData = await Categories.isInCategory(
+        showBottomSheet?.source,
+        showBottomSheet?.target,
+        showBottomSheet?.query,
+        showBottomSheet?.translation
+      );
+      setCategories(data);
+      setExistsInCategories(existsData);
+    }
   };
 
   // variables
@@ -51,6 +62,8 @@ const CategoryBottomSheet = () => {
   const handleSheetChanges = useCallback((index: number) => {
     if (index === -1) {
       dispatch(setAddToCategory(null));
+      setCategories([]);
+      setExistsInCategories([]);
     }
   }, []);
 
@@ -61,8 +74,10 @@ const CategoryBottomSheet = () => {
   }, [showBottomSheet]);
 
   useEffect(() => {
-    loadCategories();
-  }, []);
+    if (showBottomSheet) {
+      loadCategories();
+    }
+  }, [showBottomSheet]);
 
   const renderFooter = useCallback(
     (props: any) => (
@@ -115,7 +130,15 @@ const CategoryBottomSheet = () => {
           data={categories}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => (
-            <CategoryItem category={item} data={showBottomSheet} />
+            <CategoryItem
+              category={item}
+              data={showBottomSheet}
+              isInCategory={
+                existsInCategories?.findIndex(
+                  (category) => category?.categoryId === item?.id
+                ) !== -1
+              }
+            />
           )}
           contentContainerStyle={styles.contentContainer}
         />

@@ -24,12 +24,23 @@ export default class Categories {
     static async addToCategory(categoryId:string,source:Language,target:Language,query:string,translation:string) {
         const response = await API.post('/categories/translations', {
             categoryId,
-            search:query,
+            search:query.trim(),
             sourceLang: source?.code,
             targetLang: target?.code,
-            translation: translation
+            translation: translation.trim()
         })
 
+        return response?.data
+    }
+
+    static async isInCategory(source:Language,target:Language,query:string,translation:string) {
+        const response = await API.post('/categories/isInCategory', {
+            search:query.trim(),
+            sourceLang: source?.code,
+            targetLang: target?.code,
+            translation: translation.trim()
+        })
+        console.log(response?.data)
         return response?.data
     }
 
