@@ -197,6 +197,7 @@ async function isInCategory(request,response,next) {
 
       const data = items.docs.map((doc) => ({
         categoryId: doc.ref?.parent?.parent.id,
+        categoryItemId: doc.ref?.parent.id
       }));
             return response.status(201).json(data)
 

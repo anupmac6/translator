@@ -1,10 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import Categories, { Category } from '../services/Categories';
-import Colors from '../constants/colors';
-import Checkbox, { CheckboxEvent } from 'expo-checkbox';
-import { Fonts } from '../constants/fonts';
-import { Language } from '../services/Languages';
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import Categories, { Category } from "../services/Categories";
+import Colors from "../constants/colors";
+import Checkbox, { CheckboxEvent } from "expo-checkbox";
+import { Fonts } from "../constants/fonts";
+import { Language } from "../services/Languages";
 
 interface CategoryItemProps {
   category: Category;
@@ -15,14 +15,24 @@ interface CategoryItemProps {
     translation: string;
   } | null;
   isInCategory?: boolean;
+  disabled?: boolean;
 }
 
-const CategoryItem = ({ category, data, isInCategory }: CategoryItemProps) => {
+const CategoryItem = ({
+  category,
+  data,
+  isInCategory,
+  disabled,
+}: CategoryItemProps) => {
   const [isChecked, setIsChecked] = useState<boolean>(isInCategory || false);
 
   const onPressHandler = () => {
+    if (disabled) {
+      return;
+    }
     if (isChecked) {
       // remove
+      Categories.removeItem();
     } else {
       // add
       Categories.addToCategory(
@@ -47,6 +57,7 @@ const CategoryItem = ({ category, data, isInCategory }: CategoryItemProps) => {
         style={styles.checkbox}
         value={isChecked}
         color={Colors.primary1}
+        disabled={disabled}
       />
       <Text style={styles.checkboxLabel}>{category.name}</Text>
     </Pressable>
@@ -57,10 +68,10 @@ export default CategoryItem;
 
 const styles = StyleSheet.create({
   section: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: 15,
     paddingHorizontal: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   checkbox: {},
   checkboxLabel: {

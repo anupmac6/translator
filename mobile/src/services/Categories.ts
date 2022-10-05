@@ -34,7 +34,7 @@ export default class Categories {
     }
 
     static async isInCategory(source:Language,target:Language,query:string,translation:string) {
-        const response = await API.post('/categories/isInCategory', {
+        const response = await API.post<{categoryId:string,categoryItemId:string}[]>('/categories/isInCategory', {
             search:query.trim(),
             sourceLang: source?.code,
             targetLang: target?.code,

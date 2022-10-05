@@ -1,29 +1,29 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, {
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
-} from 'react';
-import { AntDesign } from '@expo/vector-icons';
+} from "react";
+import { AntDesign } from "@expo/vector-icons";
 import {
   BottomSheetBackdrop,
   BottomSheetFlatList,
   BottomSheetFooter,
   BottomSheetModal,
-} from '@gorhom/bottom-sheet';
+} from "@gorhom/bottom-sheet";
 import {
   SafeAreaView,
   useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAddToCategory, setAddToCategory } from '../store/app/slice';
-import Colors from '../constants/colors';
-import { Fonts } from '../constants/fonts';
-import Checkbox from 'expo-checkbox';
-import Categories, { Category } from '../services/Categories';
-import CategoryItem from './CategoryItem';
+} from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
+import { getAddToCategory, setAddToCategory } from "../store/app/slice";
+import Colors from "../constants/colors";
+import { Fonts } from "../constants/fonts";
+import Checkbox from "expo-checkbox";
+import Categories, { Category } from "../services/Categories";
+import CategoryItem from "./CategoryItem";
 
 const CategoryBottomSheet = () => {
   const dispatch = useDispatch();
@@ -31,8 +31,10 @@ const CategoryBottomSheet = () => {
   const insets = useSafeAreaInsets();
   const [categories, setCategories] = useState<Category[]>([]);
   const [existsInCategories, setExistsInCategories] = useState<
-    { categoryId: string }[]
+    { categoryId: string; categoryItemId: string }[]
   >([]);
+  const [isExistsInCategoryLoading, setIsExistsInCategoryLoading] =
+    useState<boolean>(true);
 
   const showBottomSheet = useSelector(getAddToCategory);
   // ref
@@ -49,11 +51,12 @@ const CategoryBottomSheet = () => {
       );
       setCategories(data);
       setExistsInCategories(existsData);
+      setIsExistsInCategoryLoading(false);
     }
   };
 
   // variables
-  const snapPoints = useMemo(() => ['75%', '95%'], []);
+  const snapPoints = useMemo(() => ["75%", "95%"], []);
 
   // callbacks
   const handlePresentModalPress = useCallback(() => {
@@ -64,6 +67,7 @@ const CategoryBottomSheet = () => {
       dispatch(setAddToCategory(null));
       setCategories([]);
       setExistsInCategories([]);
+      setIsExistsInCategoryLoading(true);
     }
   }, []);
 
@@ -133,6 +137,7 @@ const CategoryBottomSheet = () => {
             <CategoryItem
               category={item}
               data={showBottomSheet}
+              disabled={isExistsInCategoryLoading}
               isInCategory={
                 existsInCategories?.findIndex(
                   (category) => category?.categoryId === item?.id
@@ -157,9 +162,9 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 15,
     paddingVertical: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderBottomColor: Colors.gray1,
     borderBottomWidth: 1,
   },
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderTopColor: Colors.gray1,
     borderTopWidth: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   footerText: {
     fontFamily: Fonts.Karla.Bold,
@@ -201,6 +206,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     padding: 6,
     margin: 6,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
   },
 });

@@ -6,42 +6,42 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
+} from "react-native";
 import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
   useState,
-} from 'react';
+} from "react";
 import {
   useIsFocused,
   useNavigation,
   useRoute,
-} from '@react-navigation/native';
-import HeaderButton from '../../components/shared/HeaderButton';
-import Loading from '../../components/shared/Loading';
-import Languages, { Language } from '../../services/Languages';
-import { useDispatch, useSelector } from 'react-redux';
+} from "@react-navigation/native";
+import HeaderButton from "../../components/shared/HeaderButton";
+import Loading from "../../components/shared/Loading";
+import Languages, { Language } from "../../services/Languages";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getLanguages,
   getRecentLanguages,
   setRecentLanguages,
-} from '../../store/data/slice';
-import { combineRecentAndAllLanguages } from '../../utils/languageUtility';
-import ListHeader from '../../components/shared/ListHeader';
-import LanguageItem from '../../components/LanguageItem';
-import Colors from '../../constants/colors';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Divider from '../../components/shared/Divider';
+} from "../../store/data/slice";
+import { combineRecentAndAllLanguages } from "../../utils/languageUtility";
+import ListHeader from "../../components/shared/ListHeader";
+import LanguageItem from "../../components/LanguageItem";
+import Colors from "../../constants/colors";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Divider from "../../components/shared/Divider";
 import {
   getSourceLanguage,
   getTargetLanguage,
   setSourceLanguage,
   setTargetLanguage,
-} from '../../store/app/slice';
-import SegmentedControl from '../../components/shared/SegmentedControl';
-import SearchBar from '../../components/shared/SearchBar';
+} from "../../store/app/slice";
+import SegmentedControl from "../../components/shared/SegmentedControl";
+import SearchBar from "../../components/shared/SearchBar";
 
 interface LanguageSelectorScreenProps {}
 
@@ -53,7 +53,7 @@ const LanguageSelectorScreen = () => {
   // State
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedLanguageType, setSelectedLanguageType] = useState<number>(
-    languageType === 'source' ? 0 : 1
+    languageType === "source" ? 0 : 1
   );
   const [search, setSearch] = useState<string | undefined>(undefined);
   const [isSearching, setIsSearching] = useState(false);
@@ -116,13 +116,13 @@ const LanguageSelectorScreen = () => {
     [selectedLanguageType]
   );
   return (
-    <SafeAreaView style={styles.screen} edges={['left', 'right']}>
+    <SafeAreaView style={styles.screen} edges={["left", "right"]}>
       {isLoading && <Loading />}
       {!isLoading && (
         <>
           <View style={styles.searchBar}>
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
               <SearchBar value={search} onChange={setSearch} />
             </KeyboardAvoidingView>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   footer: { margin: 50, minHeight: 1 },
   listHeader: {},
