@@ -16,6 +16,10 @@ export interface SearchItem {
     search: string;
     createdAt?: number
 }
+
+interface HistoryResponse {
+    id: string
+}
 export default class History {
 
     static async get() {
@@ -30,7 +34,7 @@ export default class History {
 
 
     static async add(source:Language,target:Language,query:string,translation:string) {
-        const response = await API.post<{id:string}>('/history', {
+        const response = await API.post<HistoryResponse>('/history', {
             search:query,
             sourceCode: source?.code,
             sourceName: source?.name,

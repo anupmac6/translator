@@ -19,6 +19,18 @@ const {
   categoriesRouter
 } = require("./routers");
 
+const multer = require("multer");
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+    let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+    cb(null, Date.now() + ext);
+  }
+})
+const upload = multer({ storage:storage });
+
 // global constants
 dotenv.config();
 const app = express();
@@ -34,11 +46,21 @@ const {
 
 // body parser setup
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ type: "*/*" }));
+app.use(express.json());
+
+
+
 app.use(bodyParserHandler); // error handling specific to body parser only
 
 // response headers setup; CORS
 app.use(globalResponseHeaders);
+app.post("/upload_files", upload.array("files"), uploadFiles);
+
+function uploadFiles(req, res) {
+    console.log(req.body);
+    console.log(req.files);
+    res.json({ message: "Successfully uploaded files" });
+}
 
 app.use("/things", thingsRouter);
 app.use("/translate", translateRouter)
