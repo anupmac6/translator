@@ -13,6 +13,8 @@ import Style from '../../constants/styles';
 import HistoryScreen from '../../screens/HistoryScreen';
 import HistoryStack from '../stack/HistoryStack';
 import FavoriteScreen from '../../screens/FavoriteScreen';
+import CategoryScreen from '../../screens/CategoryScreen';
+import CategoryStack from '../stack/CategoryStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,8 +47,8 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="list"
+        component={CategoryStack}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-list" size={size} color={color} />
