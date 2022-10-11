@@ -10,6 +10,7 @@ import {
 } from '@react-navigation/native';
 import Categories, { Category } from '../services/Categories';
 import CategoryItem from '../components/CategoryScreen/CategoryItem';
+import { Entypo } from '@expo/vector-icons';
 
 const CategoryScreen = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -18,7 +19,6 @@ const CategoryScreen = () => {
 
   const loadCategories = useCallback(async () => {
     const data = await Categories.get();
-    console.log(data);
     if (isFocused) {
       setCategories(data);
     }
@@ -41,15 +41,17 @@ const CategoryScreen = () => {
   );
   return (
     <SafeAreaView edges={['left', 'right', 'top']} style={styles.screen}>
-      <View>
+      <View style={styles.headerWrapper}>
         <Text style={styles.header}>Categories</Text>
+        <View style={styles.add}>
+          <Entypo name="plus" size={24} color={Colors.text} />
+        </View>
       </View>
       <View style={{ flex: 1, marginTop: 20 }}>
         <FlatList
           data={categories}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => {
-            console.log(index);
             return (
               <CategoryItem
                 onPress={() => onPressHandler(item)}
@@ -73,10 +75,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 10,
   },
+  headerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   header: {
     fontFamily: Fonts.Karla.ExtraBold,
     fontSize: 24,
     lineHeight: 30,
     color: Colors.text,
   },
+  add: {},
 });

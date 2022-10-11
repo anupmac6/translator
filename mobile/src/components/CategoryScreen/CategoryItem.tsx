@@ -18,7 +18,6 @@ interface CategoryItemProps {
   onPress: () => void;
 }
 const CategoryItem = ({ index, category, onPress }: CategoryItemProps) => {
-  console.log(index, index % 2);
   const isOnSecondColumn = useMemo(() => index % 2 === 1, [index]);
 
   return (
