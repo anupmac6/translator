@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Colors from '../../../constants/colors';
+import QuizScreen from '../../../screens/QuizScreen';
 import TranslateImageScreen from '../../../screens/Translate/TranslateImageScreen';
 import BottomTab from '../../tabs/BottomTab';
 
@@ -24,6 +25,7 @@ const MainStack = () => {
           headerTintColor: Colors.white,
         }}
       />
+      <Stack.Screen name="Quiz" component={QuizScreen} />
     </Stack.Navigator>
   );
 };

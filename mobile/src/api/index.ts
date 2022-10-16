@@ -7,7 +7,7 @@ export interface SettingsResponse {
 }
 
 const API = axios.create({
-    baseURL: 'http://192.168.68.56:8080',
+    baseURL: 'http://192.168.68.87:8080',
     timeout: 10000,
     headers: {
         'Accept': 'application/json',

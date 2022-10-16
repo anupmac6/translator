@@ -16,11 +16,6 @@ const AppDrawer = () => {
       }}
     >
       <Drawer.Screen name="App" component={MainStack} />
-      <Drawer.Screen
-        name="Image"
-        component={TranslateImageScreen}
-        options={{ headerShown: true }}
-      />
     </Drawer.Navigator>
   );
 };

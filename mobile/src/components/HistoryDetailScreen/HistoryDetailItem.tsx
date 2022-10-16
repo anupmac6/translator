@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { Fonts } from '../../constants/fonts';
 import Colors from '../../constants/colors';
@@ -8,12 +8,16 @@ import { getLanguageByCode } from '../../store/data/slice';
 
 interface HistoryDetailItemProps {
   item: SearchItem;
+  onPress?: () => void;
 }
-const HistoryDetailItem = ({ item }: HistoryDetailItemProps) => {
+const HistoryDetailItem = ({
+  item,
+  onPress = () => {},
+}: HistoryDetailItemProps) => {
   const sourceLang = useSelector(getLanguageByCode(item?.sourceLang));
   const targetLang = useSelector(getLanguageByCode(item?.targetLang));
   return (
-    <View style={styles.item}>
+    <Pressable onPress={onPress} style={styles.item}>
       <View style={styles.section}>
         <Text style={styles.language}>{sourceLang}</Text>
         <Text style={styles.text}>{item?.search?.trim()}</Text>
@@ -24,7 +28,7 @@ const HistoryDetailItem = ({ item }: HistoryDetailItemProps) => {
           {item?.translation?.trim()}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
