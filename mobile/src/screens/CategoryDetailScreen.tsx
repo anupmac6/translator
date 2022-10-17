@@ -29,8 +29,10 @@ const CategoryDetailScreen = () => {
   const categoryId = route.params?.categoryId;
   const categoryName = route.params?.categoryName;
   const onPressHandler = useCallback(() => {
-    navigation.navigate('Quiz');
-  }, [navigation]);
+    navigation.navigate('Quiz', {
+      categoryId,
+    });
+  }, [navigation, categoryId]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

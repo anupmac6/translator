@@ -21,7 +21,7 @@ const Progress = ({ step, steps, height }: ProgressProps) => {
 
   useEffect(() => {
     reactive.setValue(-width + (width * step) / steps);
-  }, [step, width]);
+  }, [step, steps, width]);
   return (
     <View
       onLayout={(e) => {

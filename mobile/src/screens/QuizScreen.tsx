@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Ionicons,
@@ -11,10 +11,40 @@ import { Fonts } from '../constants/fonts';
 import Colors from '../constants/colors';
 import Progress from '../components/shared/Progress';
 import QuizCard from '../components/shared/QuizCard';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import { SearchItem } from '../services/History';
+import Categories from '../services/Categories';
 
 const { width, height } = Dimensions.get('screen');
 
 const QuizScreen = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
+
+  const [categoryItems, setCategoryItems] = useState<SearchItem[]>([]);
+  const isFocused = useIsFocused();
+  const categoryId = route.params?.categoryId;
+
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const loadCategoryItems = useCallback(async () => {
+    const data = await Categories.getById(categoryId);
+
+    if (isFocused) {
+      setCategoryItems(data);
+    }
+  }, [isFocused]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadCategoryItems();
+    }, [loadCategoryItems])
+  );
   return (
     <SafeAreaView
       edges={['left', 'right', 'top', 'bottom']}
@@ -25,21 +55,29 @@ const QuizScreen = () => {
           <Ionicons name="close" size={24} color={Colors.text} />
         </View>
         <View style={styles.headerProgress}>
-          <Text style={styles.headerProgressText}>1 / 10</Text>
+          <Text style={styles.headerProgressText}>
+            {activeIndex + 1} / {categoryItems?.length}
+          </Text>
         </View>
         <View style={styles.headerSettings}>
           <FontAwesome5 name="question-circle" size={24} color={Colors.text} />
         </View>
       </View>
 
-      <Progress step={2} steps={10} height={4} />
+      <Progress
+        step={activeIndex + 1}
+        steps={categoryItems?.length || 10}
+        height={4}
+      />
 
       <View style={styles.cards}>
         <QuizCard
           onSwipeLeft={() => {
+            setActiveIndex((prevState) => prevState + 1);
             console.log('left');
           }}
           onSwipeRight={() => {
+            setActiveIndex((prevState) => prevState + 1);
             console.log('right');
           }}
         />
