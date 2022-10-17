@@ -34,15 +34,6 @@ const QuizScreen = () => {
 
       <Progress step={2} steps={10} height={4} />
 
-      <View style={styles.resultWrapper}>
-        <View style={styles.resultWrong}>
-          <Text style={[styles.resultText, styles.resultTextWarning]}>1</Text>
-        </View>
-        <View style={styles.resultCorrect}>
-          <Text style={[styles.resultText, styles.resultTextSuccess]}>1</Text>
-        </View>
-      </View>
-
       <View style={styles.cards}>
         <QuizCard
           onSwipeLeft={() => {
@@ -102,45 +93,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
   },
-  resultWrapper: {
-    marginTop: 20,
-    marginBottom: 15,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  resultWrong: {
-    backgroundColor: Colors.warningBackground,
-    borderWidth: 1,
-    borderColor: Colors.warningBorder,
-    borderLeftWidth: 0,
-    paddingVertical: 5,
-    paddingRight: 25,
-    paddingLeft: 15,
-    borderTopRightRadius: 25,
-    borderBottomRightRadius: 25,
-  },
-  resultCorrect: {
-    backgroundColor: Colors.successBackground,
-    borderWidth: 1,
-    borderColor: Colors.successBorder,
-    borderRightWidth: 0,
-    paddingVertical: 5,
-    paddingRight: 15,
-    paddingLeft: 25,
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
-  },
-  resultText: {
-    fontFamily: Fonts.Karla.Bold,
-    fontSize: 18,
-    lineHeight: 22,
-  },
-  resultTextSuccess: {
-    color: Colors.successText,
-  },
-  resultTextWarning: {
-    color: Colors.warningText,
-  },
+
   footer: {
     marginBottom: 20,
     flexDirection: 'row',
@@ -167,8 +120,5 @@ const styles = StyleSheet.create({
   cards: {
     // backgroundColor: Colors.white,
     flex: 1,
-    marginVertical: height * 0.05,
-    marginHorizontal: width * 0.08,
-    borderRadius: 20,
   },
 });

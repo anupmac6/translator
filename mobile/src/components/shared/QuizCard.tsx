@@ -9,6 +9,7 @@ import {
 import React, { useRef, useState } from 'react';
 import Colors from '../../constants/colors';
 import FlipCard from './FlipCard';
+import SuccessErrorCount from '../QuizScreen/SuccessErrorCount';
 
 interface QuizCardProps {
   onSwipeLeft: () => void;
@@ -24,8 +25,6 @@ const SWIPE_OUT_DURATION = 250;
 const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
   const position = useRef(new Animated.ValueXY()).current;
 
-  const [header, setHeader] = useState<'error' | 'success' | null>(null);
-
   const forceSwipe = (direction: 'left' | 'right') => {
     const x = direction === 'right' ? SCREEN_WIDTH : -SCREEN_WIDTH;
     Animated.timing(position, {
@@ -33,8 +32,6 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
       duration: SWIPE_OUT_DURATION,
       useNativeDriver: true,
     }).start(() => onSwipeComplete(direction));
-
-    setHeader(null);
   };
 
   const onSwipeComplete = (direction: 'left' | 'right') => {
@@ -49,7 +46,6 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
       toValue: { x: 0, y: 0 },
       useNativeDriver: true,
     }).start();
-    setHeader(null);
   };
 
   const panResponder = useRef(
@@ -57,13 +53,6 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
       onStartShouldSetPanResponder: (evt, gestureState) => true,
       onPanResponderMove: (event, gesture) => {
         position.setValue({ x: gesture.dx, y: gesture.dy });
-        if (gesture.dx > SHOW_SWIPE_THRESHOLD) {
-          setHeader('success');
-        } else if (gesture.dx < -SHOW_SWIPE_THRESHOLD) {
-          setHeader('error');
-        } else {
-          setHeader(null);
-        }
       },
       onPanResponderRelease: (event, gesture) => {
         if (gesture.dx > SWIPE_THRESHOLD) {
@@ -106,25 +95,33 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
   };
 
   return (
-    <Animated.View
-      style={[
-        styles.card,
-        {
-          ...getCardStyle(),
-        },
-      ]}
-      {...panResponder.panHandlers}
-    >
+    <>
+      <SuccessErrorCount
+        successStyle={successOpacity}
+        errorStyle={errorOpacity}
+      />
       <Animated.View
-        style={[styles.header, styles.headerSuccess, successOpacity]}
+        style={[
+          styles.card,
+          {
+            ...getCardStyle(),
+          },
+        ]}
+        {...panResponder.panHandlers}
       >
-        <Text>Got it</Text>
+        <Animated.View
+          style={[styles.header, styles.headerSuccess, successOpacity]}
+        >
+          <Text>Got it</Text>
+        </Animated.View>
+        <Animated.View
+          style={[styles.header, styles.headerError, errorOpacity]}
+        >
+          <Text>Study Again</Text>
+        </Animated.View>
+        <FlipCard />
       </Animated.View>
-      <Animated.View style={[styles.header, styles.headerError, errorOpacity]}>
-        <Text>Study Again</Text>
-      </Animated.View>
-      <FlipCard />
-    </Animated.View>
+    </>
   );
 };
 
@@ -134,8 +131,9 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     borderRadius: 20,
-    width: '100%',
     position: 'relative',
+    marginVertical: height * 0.05,
+    marginHorizontal: width * 0.08,
   },
   header: {
     position: 'absolute',
