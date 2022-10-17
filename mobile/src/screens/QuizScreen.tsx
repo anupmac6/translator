@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   Ionicons,
@@ -31,6 +31,7 @@ const QuizScreen = () => {
   const categoryId = route.params?.categoryId;
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [steps, setSteps] = useState([]);
 
   const loadCategoryItems = useCallback(async () => {
     const data = await Categories.getById(categoryId);
@@ -45,6 +46,21 @@ const QuizScreen = () => {
       loadCategoryItems();
     }, [loadCategoryItems])
   );
+
+  const stillLearningCount = useMemo(
+    () => steps.filter((step) => step.type === 'still_learning').length,
+    [steps]
+  );
+  const gotItCount = useMemo(
+    () => steps.filter((step) => step.type === 'got_it').length,
+    [steps]
+  );
+  const swipeRight = useCallback(() => {
+    setActiveIndex((prevState) => prevState + 1);
+    console.log(categoryItems.length, steps.length);
+    setSteps((prevState) => prevState.concat([{ type: 'got_it' }]));
+    console.log('right');
+  }, [activeIndex, categoryItems, steps]);
   return (
     <SafeAreaView
       edges={['left', 'right', 'top', 'bottom']}
@@ -65,21 +81,23 @@ const QuizScreen = () => {
       </View>
 
       <Progress
-        step={activeIndex + 1}
+        step={activeIndex}
         steps={categoryItems?.length || 10}
         height={4}
       />
 
       <View style={styles.cards}>
         <QuizCard
+          successCount={gotItCount}
+          errorCount={stillLearningCount}
           onSwipeLeft={() => {
             setActiveIndex((prevState) => prevState + 1);
+            setSteps((prevState) =>
+              prevState.concat([{ type: 'still_learning' }])
+            );
             console.log('left');
           }}
-          onSwipeRight={() => {
-            setActiveIndex((prevState) => prevState + 1);
-            console.log('right');
-          }}
+          onSwipeRight={swipeRight}
         />
       </View>
 

@@ -6,8 +6,12 @@ import { Fonts } from '../../constants/fonts';
 interface SuccessErrorCountProps {
   successStyle: any;
   errorStyle: any;
+  successCount: number;
+  errorCount: number;
 }
 const SuccessErrorCount = ({
+  successCount,
+  errorCount,
   successStyle,
   errorStyle,
 }: SuccessErrorCountProps) => {
@@ -15,7 +19,9 @@ const SuccessErrorCount = ({
     <View style={styles.resultWrapper}>
       <View>
         <View style={styles.resultWrong}>
-          <Text style={[styles.resultText, styles.resultTextWarning]}>1</Text>
+          <Text style={[styles.resultText, styles.resultTextWarning]}>
+            {errorCount}
+          </Text>
         </View>
         <Animated.View
           style={[styles.resultWrong, styles.resultWrongPlus, errorStyle]}
@@ -28,7 +34,7 @@ const SuccessErrorCount = ({
       <View style={{ position: 'relative' }}>
         <View style={styles.resultCorrect}>
           <Text style={[styles.resultText, styles.resultTextSuccess]}>
-            &nbsp;1&nbsp;
+            &nbsp;{successCount}
           </Text>
         </View>
         <Animated.View

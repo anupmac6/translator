@@ -14,6 +14,8 @@ import SuccessErrorCount from '../QuizScreen/SuccessErrorCount';
 interface QuizCardProps {
   onSwipeLeft: () => void;
   onSwipeRight: () => void;
+  successCount: number;
+  errorCount: number;
 }
 
 const { width, height } = Dimensions.get('window');
@@ -22,7 +24,12 @@ const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SHOW_SWIPE_THRESHOLD = 0.05 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
 
-const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
+const QuizCard = ({
+  onSwipeLeft,
+  onSwipeRight,
+  successCount,
+  errorCount,
+}: QuizCardProps) => {
   const position = useRef(new Animated.ValueXY()).current;
 
   const forceSwipe = (direction: 'left' | 'right') => {
@@ -97,6 +104,8 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
   return (
     <>
       <SuccessErrorCount
+        successCount={successCount}
+        errorCount={errorCount}
         successStyle={successOpacity}
         errorStyle={errorOpacity}
       />
