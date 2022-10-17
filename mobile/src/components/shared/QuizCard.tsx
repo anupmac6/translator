@@ -92,6 +92,19 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
     };
   };
 
+  const successOpacity = {
+    opacity: position.x.interpolate({
+      inputRange: [SHOW_SWIPE_THRESHOLD, SWIPE_THRESHOLD],
+      outputRange: [0, 1],
+    }),
+  };
+  const errorOpacity = {
+    opacity: position.x.interpolate({
+      inputRange: [-SWIPE_THRESHOLD, -SHOW_SWIPE_THRESHOLD],
+      outputRange: [1, 0],
+    }),
+  };
+
   return (
     <Animated.View
       style={[
@@ -102,16 +115,14 @@ const QuizCard = ({ onSwipeLeft, onSwipeRight }: QuizCardProps) => {
       ]}
       {...panResponder.panHandlers}
     >
-      {header && header === 'success' && (
-        <View style={[styles.header, styles.headerSuccess]}>
-          <Text>Got it</Text>
-        </View>
-      )}
-      {header && header === 'error' && (
-        <View style={[styles.header, styles.headerError]}>
-          <Text>Study Again</Text>
-        </View>
-      )}
+      <Animated.View
+        style={[styles.header, styles.headerSuccess, successOpacity]}
+      >
+        <Text>Got it</Text>
+      </Animated.View>
+      <Animated.View style={[styles.header, styles.headerError, errorOpacity]}>
+        <Text>Study Again</Text>
+      </Animated.View>
       <FlipCard />
     </Animated.View>
   );
@@ -124,8 +135,14 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 20,
     width: '100%',
+    position: 'relative',
   },
   header: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: 60,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingVertical: 20,
